@@ -1,64 +1,105 @@
-
+"use strict";
+// class Player {
+//    public  first: string;
+//    public readonly last: string;
+//    private score: number= 0;                   //anotation ..number ..not needed.. private is cleaner
+//   //#score: number= 0;          true javascript private..#
+//     constructor (first: string, last: string) {
+//        this.first = first;
+//        this.last = last;
+//     }
+//     secretMethod(): void {
+// console.log("secret method");
+//     }
+// }
+// const elton = new Player("elton", "jam");
+// elton.secretMethod();
+// pblic private
+// class Player {
+// public  first: string;
+// public readonly last: string;
+// private score: number= 0;                   //anotation ..number ..not needed.. private is cleaner
+//#score: number= 0;          true javascript private..#
 class Player {
-    #score = 0;             //#makes it privare field  //initialized for all players hard coded to be equal for all player
-    numLives = 10;                        //hard coded to be equal for all player
-    constructor(first, last) {
-       this.first = first;
-       this.last = last;
+    constructor(first, last, _score) {
+        this.first = first;
+        this.last = last;
+        this._score = _score;
+    }
+    secretMethod() {
+        console.log("secret method");
     }
     get fullName() {
-   return`${this.first} ${this.last}`
+        return `${this.first} ${this.last}`;
     }
-    get score() {                         //getter
-        return this.#score;                //setter
+    get score() {
+        return this._score;
     }
     set score(newScore) {
         if (newScore < 0) {
-            throw new Error("sore must be positive!");
+            throw new Error("score cannot be negative number");
         }
-        this.#score = newScore
-    }
-    // getScore() {
-    //     return this.#score;
-    // }
-    updateScore(newScore) {
-        this.#score = newScore;
-    }
-    tuant() {
-        console.log("booyaah")
-    }
-    loseLife(){
-        this.numLives -= 1;
+        this._score = newScore;
     }
 }
-
-const player1 = new Player("Misty", "Muchicci");
-  player1.tuant();
-    console.log(player1.first)
-    console.log(player1.last)
-    console.log(player1)
-   console.log(player1.numLives);
-player1.loseLife();
-    console.log(player1.numLives);
-    // console.log(player1.getScore());
-    // console.log(player1.updateScore(28));
-    // console.log(player1.getScore());
-    console.log(player1.fullName);      //getter fulName
-    console.log(player1.score);
-    player1.score = 45475;
-    console.log(player1.score);
-
-const player2 = new Player("Shiva", "Von Lucien");
-  player2.tuant();
-    console.log(player2.first)
-    console.log(player2.last)
-
-    class AdminPlayer extends Player {
-       constructor(first, last, powers) { 
-        super(first, last);               // super runs function from parent class first
-        this.powers = powers;
+class SuprPlayer extends Player {
+    constructor() {
+        super(...arguments);
+        this.isAdmin = true;
     }
-        isAdmin = true;
+    maxScore() {
+        this._score = 99999; //Protected is only accessable in child classes
     }
-    const admin = new AdminPlayer(["jay", "jay","ice", "heat"]);
-    
+}
+const elton = new Player("elton", "jam", 100);
+elton.secretMethod();
+elton.fullName;
+elton.score = 1;
+class Bike {
+    constructor(color) {
+        this.color = color;
+    }
+}
+class Jacket {
+    constructor(brand, color) {
+        this.brand = brand;
+        this.color = color;
+    }
+    print() {
+        console.log(`${this.color} ${this.brand} jacket`);
+    }
+}
+const bike1 = new Bike("red");
+const jacket1 = new Jacket("alpine", "red");
+class Employee {
+    constructor(first, last) {
+        this.first = first;
+        this.last = last;
+    }
+    greeta() {
+        console.log("HELLO!!!");
+    }
+}
+class FullTimeEmployee extends Employee {
+    constructor(first, last, salary) {
+        super(first, last);
+        this.salary = salary;
+    }
+    getPay() {
+        return this.salary;
+    }
+}
+class PartTimeEmployee extends Employee {
+    constructor(first, last, hourlyRate, hoursWorked) {
+        super(first, last);
+        this.hourlyRate = hourlyRate;
+        this.hoursWorked = hoursWorked;
+    }
+    getPay() {
+        return this.hourlyRate * this.hoursWorked;
+    }
+}
+const betty = new FullTimeEmployee("Betty", "White", 99999);
+console.log(betty.getPay());
+const bill = new PartTimeEmployee("Bill", "perth", 24, 1100);
+console.log(bill.getPay());
